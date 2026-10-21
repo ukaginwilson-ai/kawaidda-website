@@ -1,0 +1,188 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT Plus Plan Card</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      border: 1px solid #e4e4e7;
+      border-radius: 24px;
+      padding: 32px 28px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #09090b;
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-size: 15px;
+      color: #27272a;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: #18181b;
+      line-height: 1.4;
+    }
+
+    .feature-icon {
+      width: 20px;
+      height: 20px;
+      color: #2563eb;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: #f4f4f5;
+      border: none;
+      margin: 24px 0 20px 0;
+    }
+
+    .pricing-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 15px;
+      color: #71717a;
+    }
+
+    .price-row.discount {
+      color: #2563eb;
+    }
+
+    .price-row.total {
+      font-size: 17px;
+      font-weight: 700;
+      color: #09090b;
+      margin-top: 8px;
+    }
+
+    .subtext {
+      font-size: 12px;
+      color: #71717a;
+      margin-top: 2px;
+    }
+
+    .subscribe-btn {
+      width: 100%;
+      background-color: #09090b;
+      color: #ffffff;
+      border: none;
+      border-radius: 9999px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .subscribe-btn:hover {
+      background-color: #27272a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1 class="card-title">ChatGPT Plus</h1>
+   
+    <p class="section-label">Top features</p>
+
+    <ul class="features-list">
+      <li class="feature-item">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Cancel anytime</span>
+      </li>
+      <li class="feature-item">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span>We'll remind you before your trial ends</span>
+      </li>
+      <li class="feature-item">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        <span>Expanded messaging and uploads</span>
+      </li>
+      <li class="feature-item">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>More image creation, faster loading</span>
+      </li>
+      <li class="feature-item">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3m-3.5-6.5l-2 2m-7 7l-2 2m0-11l2 2m7 7l2 2"/></svg>
+        <span>Expanded deep research and agent mode</span>
+      </li>
+    </ul>
+
+    <hr class="divider">
+
+    <div class="pricing-details">
+      <div class="price-row">
+        <span>Monthly subscription</span>
+        <span>$20.00</span>
+      </div>
+      <div class="price-row discount">
+        <div>
+          <div>Promotion</div>
+          <div class="subtext">100% off for a month</div>
+        </div>
+        <span>-$20.00</span>
+      </div>
+      <div class="price-row">
+        <span>VAT (0%)</span>
+        <span>$0.00</span>
+      </div>
+      <div class="price-row total">
+        <span>Due today</span>
+        <span>$0.00</span>
+      </div>
+    </div>
+
+    <button class="subscribe-btn">Subscribe</button>
+  </div>
+
+</body>
+</html>

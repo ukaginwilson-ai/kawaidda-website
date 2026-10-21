@@ -1,0 +1,96 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAWAIDDA POULTRY FARM</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-image: url('Alt-con-7.png');
+      background-size: cover;
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .card {
+      overflow: hidden;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    }
+
+    .card-image {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 22px;
+    }
+
+    .card-title {
+      margin-bottom: 8px;
+      color: #183b2b;
+      font-size: 22px;
+    }
+
+    .card-text {
+      color: #4b5563;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 760px) {
+      .cards {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="cards">
+    <article class="card">
+      <img class="card-image" src="2733-COBB-Avian-48-broiler-breeder-696x456.jpg" alt="Broiler breeder chickens">
+      <div class="card-content">
+        <h1 class="card-title">Quality Breeding</h1>
+        <p class="card-text">Strong, healthy poultry raised with care at Kawaidda Poultry Farm.</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <img class="card-image" src="Alt-con-7.png" alt="Chickens at the farm">
+      <div class="card-content">
+        <h2 class="card-title">Healthy Flock</h2>
+        <p class="card-text">We focus on attentive care and a clean environment for our birds.</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <img class="card-image" src="19b2674528b4d5fa396dcc8c20062871_XL.jpg" alt="Poultry raised at Kawaidda Farm">
+      <div class="card-content">
+        <h2 class="card-title">Farm Fresh</h2>
+        <p class="card-text">Discover our farm and the poultry products we proudly provide.</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

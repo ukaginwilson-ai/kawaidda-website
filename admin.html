@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#193426">
+  <title>Staff dashboard | Kawaidda Poultry</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <a class="admin-brand" href="/index.html">Kawaidda Poultry <span>Staff dashboard</span></a>
+    <a href="/index.html">View public website</a>
+  </header>
+  <main class="admin-main">
+    <section class="admin-card" id="sign-in-panel">
+      <p class="eyebrow">Authorized staff</p>
+      <h1>Sign in to manage the website</h1>
+      <p>Use your Kawaidda staff account. Access is restricted to accounts granted administrator access.</p>
+      <form id="sign-in-form" class="admin-form">
+        <label>Email
+          <input name="email" type="email" autocomplete="username" required>
+        </label>
+        <label>Password
+          <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button class="button" type="submit">Sign in</button>
+      </form>
+      <p class="admin-status" id="sign-in-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="access-denied-panel" class="admin-card" hidden>
+      <p class="eyebrow">Staff dashboard</p>
+      <h1>Administrator access required</h1>
+      <p id="access-denied-message">This account is not authorized to manage the site. Contact the site administrator if you need access.</p>
+      <button class="button-secondary" id="denied-sign-out" type="button">Sign out</button>
+    </section>
+
+    <section id="dashboard" hidden>
+      <div class="admin-heading">
+        <div>
+          <p class="eyebrow">Kawaidda Poultry</p>
+          <h1>Website management</h1>
+          <p id="signed-in-email"></p>
+        </div>
+        <button class="button-secondary" id="sign-out" type="button">Sign out</button>
+      </div>
+      <p class="admin-status" id="dashboard-status" role="status" aria-live="polite"></p>
+      <nav class="admin-tabs" aria-label="Management sections">
+        <button type="button" data-view="inquiries" aria-selected="true">Inquiries</button>
+        <button type="button" data-view="order_requests" aria-selected="false">Order requests</button>
+        <button type="button" data-view="products" aria-selected="false">Products</button>
+        <button type="button" data-view="services" aria-selected="false">Services</button>
+        <button type="button" data-view="gallery_images" aria-selected="false">Gallery</button>
+      </nav>
+
+      <section class="admin-panel" data-panel="inquiries">
+        <h2>Customer inquiries</h2>
+        <div class="admin-records" id="inquiries-records"></div>
+      </section>
+      <section class="admin-panel" data-panel="order_requests" hidden>
+        <h2>Order requests</h2>
+        <p>Track each request from pending through completion. Update customer or order details as needed. Requests are not paid orders.</p>
+        <div class="admin-records" id="order_requests-records"></div>
+        <form class="admin-card admin-editor" id="order-request-editor" hidden>
+          <h3>Edit order request</h3>
+          <input type="hidden" name="id">
+          <label>Customer name
+            <input name="name" type="text" minlength="2" maxlength="120" required>
+          </label>
+          <label>Phone
+            <input name="phone" type="tel" minlength="5" maxlength="40" required>
+          </label>
+          <label>Email <span>(optional)</span>
+            <input name="email" type="email" maxlength="254">
+          </label>
+          <label>Product or service
+            <select name="product" required>
+              <option value="Broiler breeder stock">Broiler breeder stock</option>
+              <option value="Day-old broiler chicks">Day-old broiler chicks</option>
+              <option value="Day-old Kuroiler chicks">Day-old Kuroiler chicks</option>
+              <option value="Poultry feeds">Poultry feeds</option>
+              <option value="Hatchery services">Hatchery services</option>
+            </select>
+          </label>
+          <label>Quantity or flock size
+            <input name="quantity" type="text" maxlength="120" required>
+          </label>
+          <label>Requested date <span>(optional)</span>
+            <input name="requested_date" type="date">
+          </label>
+          <label>Additional details <span>(optional)</span>
+            <textarea name="notes" maxlength="1500"></textarea>
+          </label>
+          <label>Order status
+            <select name="order_status" required>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="processing">Processing</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </label>
+          <div class="admin-editor-actions">
+            <button class="button" type="submit">Save changes</button>
+            <button type="button" id="cancel-order-edit">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-panel" data-panel="products" hidden>
+        <div class="admin-panel-heading">
+          <div><h2>Products</h2><p>Only active products appear on the public website.</p></div>
+          <button class="button" type="button" data-add-content="products">Add product</button>
+        </div>
+        <div class="admin-records" id="products-records"></div>
+        <form class="admin-card admin-editor" id="products-editor" hidden></form>
+      </section>
+      <section class="admin-panel" data-panel="services" hidden>
+        <div class="admin-panel-heading">
+          <div><h2>Services</h2><p>Only active services appear on the public website and inquiry forms.</p></div>
+          <button class="button" type="button" data-add-content="services">Add service</button>
+        </div>
+        <div class="admin-records" id="services-records"></div>
+        <form class="admin-card admin-editor" id="services-editor" hidden></form>
+      </section>
+      <section class="admin-panel" data-panel="gallery_images" hidden>
+        <div class="admin-panel-heading">
+          <div><h2>Gallery</h2><p>Upload photos and edit their captions. Only active photos are shown publicly.</p></div>
+          <button class="button" type="button" data-add-content="gallery_images">Add photo</button>
+        </div>
+        <div class="admin-records" id="gallery_images-records"></div>
+        <form class="admin-card admin-editor" id="gallery_images-editor" hidden></form>
+      </section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="/assets/js/admin.js"></script>
+</body>
+</html>
