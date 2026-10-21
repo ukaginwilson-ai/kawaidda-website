@@ -1,3 +1,8 @@
+import broilerBreederImage from "../../2733-COBB-Avian-48-broiler-breeder-696x456.jpg";
+import broilerChicksImage from "../../19b2674528b4d5fa396dcc8c20062871_XL.jpg";
+import broilerFlockImage from "../../Alt-con-7.png";
+import kuroilerChicksImage from "../../kuroiler1.jfif";
+
 const menuToggle = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".nav-links");
 
@@ -392,7 +397,17 @@ async function hashOrderTrackingCode(code) {
   return toHex(new Uint8Array(digest));
 }
 
+const localProductImages = new Map([
+  ["2733-COBB-Avian-48-broiler-breeder-696x456.jpg", broilerBreederImage],
+  ["19b2674528b4d5fa396dcc8c20062871_XL.jpg", broilerChicksImage],
+  ["Alt-con-7.png", broilerFlockImage],
+  ["kuroiler1.jfif", kuroilerChicksImage]
+]);
+
 function publicImageUrl(path) {
+  if (localProductImages.has(path)) {
+    return localProductImages.get(path);
+  }
   return supabaseClient.storage.from("site-images").getPublicUrl(path).data.publicUrl;
 }
 
