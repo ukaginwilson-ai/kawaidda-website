@@ -4,7 +4,7 @@ import broilerFlockImage from "../../Alt-con-7.png";
 import kuroilerChicksImage from "../../kuroiler1.jfif";
 
 const menuToggle = document.querySelector(".menu-toggle");
-const navigation = document.querySelector(".nav-links");
+const navigation = document.querySelector("#main-navigation");
 
 menuToggle.addEventListener("click", () => {
   const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
@@ -377,9 +377,6 @@ const formStatus = document.querySelector("#form-status");
 const orderForm = document.querySelector("#order-form");
 const orderStatus = document.querySelector("#order-status");
 const orderDateInput = orderForm.elements.namedItem("requested_date");
-const orderLookupForm = document.querySelector("#order-lookup-form");
-const orderLookupStatus = document.querySelector("#order-lookup-status");
-const orderTrackingResult = document.querySelector("#order-tracking-result");
 const orderConfirmation = document.querySelector("#order-confirmation");
 orderDateInput.min = new Date().toISOString().slice(0, 10);
 
@@ -395,6 +392,36 @@ function createOrderTrackingCode() {
 async function hashOrderTrackingCode(code) {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(code));
   return toHex(new Uint8Array(digest));
+}
+
+async function insertOrderRequestWithUniqueCode(request) {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const trackingCode = createOrderTrackingCode();
+    const trackingHash = await hashOrderTrackingCode(trackingCode);
+    const { error } = await supabaseClient.from("order_requests").insert({
+      ...request,
+      tracking_hash: trackingHash
+    });
+    if (!error) return trackingCode;
+    if (error.code !== "23505" || attempt === 2) throw error;
+  }
+  throw new Error("Could not create a unique order tracking code.");
+}
+
+function orderSubmissionErrorMessage(error) {
+  if (error?.code === "42501") {
+    return "Order requests are blocked by the database permissions. Apply the latest supabase-setup.sql in Supabase, then try again.";
+  }
+  if (error?.code === "42P01" || error?.code?.startsWith("PGRST")) {
+    return "The order database setup is missing or out of date. Apply the latest supabase-setup.sql in Supabase, then try again.";
+  }
+  if (error?.code === "23514" || error?.code === "23502") {
+    return "Some order details were not accepted. Check the selected product, quantity, and requested date, then try again.";
+  }
+  if (error instanceof TypeError) {
+    return "We couldn't reach the order service. Check your internet connection and try again.";
+  }
+  return "We couldn't send your request. Please try again, or call or WhatsApp us instead.";
 }
 
 const localProductImages = new Map([
@@ -631,17 +658,12 @@ orderForm.addEventListener("submit", async (event) => {
     requested_date: String(formData.get("requested_date") || "") || null,
     notes: String(formData.get("notes") || "").trim() || null
   };
-  let trackingCode = "";
-
   submitButton.disabled = true;
   orderStatus.dataset.state = "";
   orderStatus.textContent = "Sending your order request…";
 
   try {
-    trackingCode = createOrderTrackingCode();
-    request.tracking_hash = await hashOrderTrackingCode(trackingCode);
-    const { error } = await supabaseClient.from("order_requests").insert(request);
-    if (error) throw error;
+    const trackingCode = await insertOrderRequestWithUniqueCode(request);
 
     orderForm.reset();
     orderDateInput.min = new Date().toISOString().slice(0, 10);
@@ -666,82 +688,6 @@ orderForm.addEventListener("submit", async (event) => {
           }
         }
       });
-
-      orderLookupForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        if (!orderLookupForm.reportValidity()) return;
-
-        const input = orderLookupForm.elements.tracking_code;
-        const trackingCode = `KW-${input.value.trim().slice(3).toLowerCase()}`;
-        const button = orderLookupForm.querySelector('button[type="submit"]');
-        button.disabled = true;
-        orderLookupStatus.dataset.state = "";
-        orderLookupStatus.textContent = "Checking your order…";
-        orderTrackingResult.hidden = true;
-
-        try {
-          const trackingHash = await hashOrderTrackingCode(trackingCode);
-          const { data, error } = await supabaseClient.rpc("lookup_order_status", {
-            p_tracking_hash: trackingHash
-          });
-          if (error) throw error;
-          if (!data.length) {
-            orderLookupStatus.dataset.state = "error";
-            orderLookupStatus.textContent = "We couldn't find an order for that code. Check the code and try again.";
-            return;
-          }
-
-          const order = data[0];
-          const statusLabels = {
-            pending: "Pending — awaiting availability and price confirmation",
-            confirmed: "Confirmed",
-            processing: "Processing",
-            completed: "Completed",
-            cancelled: "Cancelled"
-          };
-          const heading = document.createElement("h4");
-          heading.textContent = "Order request status";
-          const details = document.createElement("dl");
-          details.className = "order-tracking-details";
-          [
-            ["Product or service", order.product],
-            ["Quantity", order.quantity],
-            ["Requested date", order.requested_date || "Not specified"],
-            ["Status", statusLabels[order.order_status] || "Pending"],
-            ["Request date", new Date(order.created_at).toLocaleDateString()]
-          ].forEach(([labelText, value]) => {
-            const wrapper = document.createElement("div");
-            const label = document.createElement("dt");
-            label.textContent = labelText;
-            const description = document.createElement("dd");
-            description.textContent = value;
-            wrapper.append(label, description);
-            details.append(wrapper);
-          });
-          orderTrackingResult.replaceChildren(heading, details);
-          orderTrackingResult.hidden = false;
-          orderLookupStatus.textContent = "";
-        } catch (error) {
-          console.error("Could not look up order status:", error);
-          orderLookupStatus.dataset.state = "error";
-          orderLookupStatus.textContent = "We couldn't check the order status right now. Please try again shortly.";
-        } finally {
-          button.disabled = false;
-        }
-      });
-
-      document.querySelector("#copy-order-tracking-code").addEventListener("click", async (event) => {
-        const button = event.currentTarget;
-        const code = document.querySelector("#order-confirmation-code").textContent;
-        try {
-          await navigator.clipboard.writeText(code);
-          button.textContent = "Copied";
-        } catch (error) {
-          console.error("Could not copy the order tracking code:", error);
-          button.textContent = "Copy unavailable";
-        }
-      });
-
       if (notificationError) throw notificationError;
       orderStatus.dataset.state = "success";
       orderStatus.textContent = "Your request is pending. Our team has been notified and will contact you to confirm availability, pricing, and next steps.";
@@ -753,8 +699,20 @@ orderForm.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error("Could not submit the order request to Supabase:", error);
     orderStatus.dataset.state = "error";
-    orderStatus.textContent = "We couldn't send your request. Please call or WhatsApp us instead.";
+    orderStatus.textContent = orderSubmissionErrorMessage(error);
   } finally {
     submitButton.disabled = false;
+  }
+});
+
+document.querySelector("#copy-order-tracking-code").addEventListener("click", async (event) => {
+  const button = event.currentTarget;
+  const code = document.querySelector("#order-confirmation-code").textContent;
+  try {
+    await navigator.clipboard.writeText(code);
+    button.textContent = "Copied";
+  } catch (error) {
+    console.error("Could not copy the order tracking code:", error);
+    button.textContent = "Copy unavailable";
   }
 });

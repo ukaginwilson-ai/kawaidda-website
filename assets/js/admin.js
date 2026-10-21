@@ -185,11 +185,39 @@ async function loadSubmissions(tableName) {
     });
     const actionCell = document.createElement("td");
     if (isOrderRequest) {
+      const statusSelect = document.createElement("select");
+      statusSelect.setAttribute("aria-label", `Update order status for ${record.name}`);
+      ["pending", "confirmed", "processing", "completed", "cancelled"].forEach((status) => {
+        const option = document.createElement("option");
+        option.value = status;
+        option.textContent = status[0].toUpperCase() + status.slice(1);
+        option.selected = (record.order_status || "pending") === status;
+        statusSelect.append(option);
+      });
+      statusSelect.addEventListener("change", async () => {
+        const previousStatus = record.order_status || "pending";
+        statusSelect.disabled = true;
+        try {
+          const { error: updateError } = await supabaseClient.from(tableName)
+            .update({ order_status: statusSelect.value })
+            .eq("id", record.id);
+          if (updateError) throw updateError;
+          record.order_status = statusSelect.value;
+          setDashboardStatus("Order tracking status updated.", "success");
+          await loadSubmissions(tableName);
+        } catch (updateError) {
+          console.error("Could not update order tracking status:", updateError);
+          setDashboardStatus("The order tracking status could not be updated.", "error");
+          statusSelect.value = previousStatus;
+          statusSelect.disabled = false;
+        }
+      });
       const editButton = document.createElement("button");
       editButton.type = "button";
       editButton.textContent = "Edit details";
       editButton.addEventListener("click", () => openOrderEditor(record));
-      actionCell.append(editButton);
+      actionCell.className = "admin-actions";
+      actionCell.append(statusSelect, editButton);
     } else {
       const statusSelect = document.createElement("select");
       statusSelect.setAttribute("aria-label", `Update status for ${record.name}`);

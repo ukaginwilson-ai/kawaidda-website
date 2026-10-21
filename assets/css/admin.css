@@ -57,6 +57,7 @@
 .admin-records select { min-height: 38px; padding: 7px; border: 1px solid rgba(25, 52, 38, .3); border-radius: 4px; background: #fff; color: var(--ink); font: inherit; }
 .admin-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .admin-actions button, .admin-editor-actions button { min-height: 38px; padding: 7px 11px; border: 1px solid var(--leaf); border-radius: 4px; background: transparent; color: var(--leaf); font: inherit; font-weight: 700; cursor: pointer; }
+.admin-actions select { min-height: 38px; padding: 7px; border: 1px solid rgba(25, 52, 38, .3); border-radius: 4px; background: #fff; color: var(--ink); font: inherit; }
 .admin-actions button:hover, .admin-editor-actions button:hover { background: var(--leaf); color: var(--cream); }
 .admin-editor { display: grid; gap: 16px; max-width: none; margin-top: 24px; }
 .admin-editor h3 { margin: 0; font-family: "Fraunces", Georgia, serif; font-size: 1.5rem; }

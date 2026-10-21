@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#193426">
+  <meta name="description" content="Check the current status of your Kawaidda Poultry order request using your private tracking code.">
+  <title>Track your order | Kawaidda Poultry</title>
+  <link rel="icon" type="image/png" href="/KAWAIDDA%20poultry%20logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand-logo" href="/index.html" aria-label="Kawaidda Poultry home">
+        <img src="./KAWAIDDA%20poultry%20logo.png" alt="Kawaidda Poultry Breeders">
+      </a>
+      <nav class="tracking-nav" aria-label="Order navigation">
+        <a href="/index.html#orders">Place an order</a>
+        <a class="button-secondary" href="/index.html">Back to home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section orders-section" aria-labelledby="tracking-heading">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Customer order tracking</p>
+          <h1 id="tracking-heading">Check your order status</h1>
+          <p>Enter the private tracking code you received after submitting your order request. Keep the code safe; anyone with it can view the request status.</p>
+        </div>
+        <section class="order-tracking tracking-page-card" aria-label="Look up an order">
+          <div class="order-tracking-copy">
+            <p class="eyebrow">Your request, at a glance</p>
+            <h2>Track your request</h2>
+            <p>Statuses are updated by our team as they review and process your request. An order is not confirmed until we contact you.</p>
+          </div>
+          <form id="order-lookup-form" class="order-lookup-form">
+            <label for="order-tracking-code">Private tracking code</label>
+            <div class="order-lookup-row">
+              <input id="order-tracking-code" name="tracking_code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" pattern="[Kk][Ww]-[A-Fa-f0-9]{32}" maxlength="35" placeholder="KW-…" title="Enter the tracking code beginning with KW-." required>
+              <button class="button" type="submit">Check status</button>
+            </div>
+            <p class="form-status" id="order-lookup-status" role="status" aria-live="polite"></p>
+          </form>
+          <div class="order-tracking-result" id="order-tracking-result" aria-live="polite" hidden></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="/assets/js/order-tracking.js"></script>
+</body>
+</html>

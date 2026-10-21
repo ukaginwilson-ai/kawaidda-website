@@ -19,24 +19,23 @@
         <img src="./KAWAIDDA%20poultry%20logo.png" alt="Kawaidda Poultry Breeders">
       </a>
       <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="main-navigation"><span></span></button>
-      <nav aria-label="Main navigation">
-        <ul class="nav-links" id="main-navigation">
-          <li><a href="#home">Home</a></li>
+      <nav class="site-navigation" id="main-navigation" aria-label="Main navigation">
+        <ul class="nav-links">
           <li><a href="#about">About Us</a></li>
           <li><a href="#products">Products &amp; Services</a></li>
-          <li><a href="#orders">Orders</a></li>
+          <li><a href="#gallery">Gallery</a></li>
           <li><a href="#faqs">FAQs</a></li>
           <li><a href="#location">Find us</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li>
-            <button class="nav-login" id="auth-open" type="button" aria-haspopup="dialog">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
-              <span id="auth-open-label">Sign in</span>
-            </button>
-          </li>
+          <li><a href="/track-order.html">Track order</a></li>
         </ul>
+        <div class="nav-actions">
+          <button class="nav-login" id="auth-open" type="button" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
+            <span id="auth-open-label">Sign in</span>
+          </button>
+          <a class="nav-contact" href="#orders">Place an order <span aria-hidden="true">&#8599;</span></a>
+        </div>
       </nav>
-      <a class="nav-contact" href="#contact">Contact us <span aria-hidden="true">&#8599;</span></a>
     </div>
   </header>
 
@@ -239,30 +238,16 @@
             <p class="form-status" id="order-status" role="status" aria-live="polite"></p>
           </form>
         </div>
-        <section class="order-tracking" aria-labelledby="order-tracking-heading">
-          <div class="order-tracking-copy">
-            <p class="eyebrow">Already sent a request?</p>
-            <h3 id="order-tracking-heading">Check your order status</h3>
-            <p>Enter the private tracking code shown after you submitted your request. Keep the code safe; it is needed to view the status.</p>
-          </div>
-          <form id="order-lookup-form" class="order-lookup-form">
-            <label for="order-tracking-code">Tracking code</label>
-            <div class="order-lookup-row">
-              <input id="order-tracking-code" name="tracking_code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" pattern="KW-[A-Fa-f0-9]{32}" maxlength="35" placeholder="KW-…" title="Enter the tracking code beginning with KW-." required>
-              <button class="button" type="submit">Check status</button>
-            </div>
-            <p class="form-status" id="order-lookup-status" role="status" aria-live="polite"></p>
-          </form>
-          <div class="order-tracking-result" id="order-tracking-result" aria-live="polite" hidden></div>
-        </section>
         <section class="order-confirmation" id="order-confirmation" aria-live="polite" hidden>
           <div>
             <h3>Your request has been received</h3>
-            <p>Current status: <strong>Pending</strong>. Save this private tracking code to check for updates later.</p>
+            <p>Current status: <strong>Pending</strong>. Save this private tracking code, then use the tracking page to check for updates.</p>
             <code id="order-confirmation-code"></code>
+            <p><a href="/track-order.html">Go to order tracking</a></p>
           </div>
           <button class="button-secondary" id="copy-order-tracking-code" type="button">Copy tracking code</button>
         </section>
+        <p class="order-tracking-link">Already sent a request? <a href="/track-order.html">Track your order using your private code</a>.</p>
       </div>
     </section>
 
